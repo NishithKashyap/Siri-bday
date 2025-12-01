@@ -264,19 +264,19 @@ const BirthdayHero = () => {
                 <img
                     src="plant-left.png"
                     alt="Decorative plant"
-                    className="h-40 w-auto object-contain animate-sway drop-shadow-lg"
+                    className="h-28 w-auto object-contain animate-sway drop-shadow-lg"
                 />
             </div>
             <div className="absolute bottom-0 right-0 z-20 md:hidden">
                 <img
                     src="plant-right.png"
                     alt="Decorative plant"
-                    className="h-40 w-auto object-contain animate-sway-reverse drop-shadow-lg"
+                    className="h-28 w-auto object-contain animate-sway-reverse drop-shadow-lg"
                 />
             </div>
 
             {/* Subtitle overlay - Updated for white background */}
-            <div className="absolute bottom-24 md:bottom-32 left-4 right-4 md:left-0 md:right-0 z-10 text-center px-4">
+            <div className="absolute bottom-32 md:bottom-32 left-4 right-4 md:left-0 md:right-0 z-30 text-center px-4">
                 <p className="text-base sm:text-xl md:text-3xl text-gray-700 font-light bg-white/80 backdrop-blur-md rounded-full px-4 sm:px-8 py-3 sm:py-4 inline-block shadow-xl border-2 border-pink-200">
                     ✨ Celebrating the most amazing person ✨
                 </p>

@@ -63,9 +63,41 @@ const items2 = [
     { type: 'image', src: "assets/her/her55.jpg" },
 ];
 
+const items3 = [
+    { type: 'image', src: "assets/childhood/1.jpg" },
+    { type: 'image', src: "assets/childhood/2.jpg" },
+    { type: 'image', src: "assets/childhood/3.jpg" },
+    { type: 'image', src: "assets/childhood/4.jpg" },
+    { type: 'image', src: "assets/childhood/5.jpg" },
+    { type: 'image', src: "assets/childhood/6.jpg" },
+    { type: 'image', src: "assets/childhood/7.jpg" },
+    { type: 'image', src: "assets/childhood/8.jpg" },
+    { type: 'image', src: "assets/childhood/9.jpg" },
+    { type: 'image', src: "assets/childhood/10.jpg" },
+    { type: 'image', src: "assets/childhood/11.jpg" },
+    { type: 'image', src: "assets/childhood/12.jpg" },
+    { type: 'image', src: "assets/childhood/13.jpg" },
+    { type: 'image', src: "assets/childhood/14.jpg" },
+    { type: 'image', src: "assets/childhood/15.jpg" },
+    { type: 'image', src: "assets/childhood/16.jpg" },
+    { type: 'image', src: "assets/childhood/17.jpg" },
+    { type: 'image', src: "assets/childhood/18.jpg" },
+    { type: 'image', src: "assets/childhood/19.jpg" },
+    { type: 'image', src: "assets/childhood/20.jpg" },
+    { type: 'image', src: "assets/childhood/21.jpg" },
+    { type: 'image', src: "assets/childhood/22.jpg" },
+    { type: 'image', src: "assets/childhood/23.jpg" },
+    { type: 'image', src: "assets/childhood/24.jpg" },
+    { type: 'image', src: "assets/childhood/25.jpg" },
+    { type: 'image', src: "assets/childhood/26.jpg" },
+    { type: 'image', src: "assets/childhood/27.jpg" },
+    { type: 'image', src: "assets/childhood/28.jpg" },
+];
+
 const MovingGallery = () => {
     const row1Ref = useRef<HTMLDivElement>(null);
     const row2Ref = useRef<HTMLDivElement>(null);
+    const row3Ref = useRef<HTMLDivElement>(null);
 
     const shuffledItems1 = useMemo(() => {
         const shuffled = [...items1];
@@ -78,6 +110,15 @@ const MovingGallery = () => {
 
     const shuffledItems2 = useMemo(() => {
         const shuffled = [...items2];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }, []);
+
+    const shuffledItems3 = useMemo(() => {
+        const shuffled = [...items3];
         for (let i = shuffled.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -101,6 +142,16 @@ const MovingGallery = () => {
                 gsap.to(row2Ref.current, {
                     x: "0%", // Move Left to Right
                     duration: 70,
+                    ease: "none",
+                    repeat: -1,
+                    startAt: { x: "-50%" }
+                });
+            }
+
+            if (row3Ref.current) {
+                gsap.to(row3Ref.current, {
+                    x: "0%",
+                    duration: 65,
                     ease: "none",
                     repeat: -1,
                     startAt: { x: "-50%" }
@@ -155,7 +206,7 @@ const MovingGallery = () => {
             </div>
 
             {/* Row 2 */}
-            <div className="flex rotate-1 scale-105">
+            <div className="flex mb-8 rotate-1 scale-105">
                 <div ref={row2Ref} className="flex gap-4 w-max">
                     {/* Original Set */}
                     {shuffledItems2.map((item, i) => renderItem(item, i, 'r2-1'))}
@@ -165,8 +216,21 @@ const MovingGallery = () => {
                     {shuffledItems2.map((item, i) => renderItem(item, i, 'r2-3'))}
                 </div>
             </div>
+
+            {/* Row 3 */}
+            <div className="flex -rotate-1 scale-105">
+                <div ref={row3Ref} className="flex gap-4 w-max">
+                    {/* Original Set */}
+                    {shuffledItems3.map((item, i) => renderItem(item, i, 'r3-1'))}
+                    {/* Duplicate Set for Seamless Loop */}
+                    {shuffledItems3.map((item, i) => renderItem(item, i, 'r3-2'))}
+                    {/* Triplicate Set */}
+                    {shuffledItems3.map((item, i) => renderItem(item, i, 'r3-3'))}
+                </div>
+            </div>
         </section>
     );
+
 };
 
 export default MovingGallery;

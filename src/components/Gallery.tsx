@@ -42,7 +42,7 @@ const Gallery = () => {
     return (
         <section ref={container} className="py-20 px-4 bg-white">
             <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-zinc-800">
-                Our Memories
+                Memories
             </h2>
 
             <div className="columns-1 md:columns-2 lg:columns-3 gap-8 max-w-7xl mx-auto space-y-8">

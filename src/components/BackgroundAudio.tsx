@@ -15,32 +15,55 @@ const BackgroundAudio: React.FC<BackgroundAudioProps> = ({
     const [isMuted, setIsMuted] = useState(false);
     const [volume, setVolume] = useState(0.5);
     const [showControls, setShowControls] = useState(true);
-    const [showPlayPrompt, setShowPlayPrompt] = useState(autoPlay);
 
+    // Handle volume changes
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = volume;
+        }
+    }, [volume]);
+
+    // Handle autoplay and interaction
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
 
-        audio.volume = volume;
         audio.loop = true;
 
-        // Try to autoplay if enabled (may be blocked by browser)
-        if (autoPlay) {
+        const handleInteraction = () => {
             audio.play().then(() => {
-                // Autoplay succeeded
                 setIsPlaying(true);
-                setShowPlayPrompt(false);
-            }).catch(() => {
-                // Autoplay was prevented, show prompt
-                setIsPlaying(false);
-                setShowPlayPrompt(true);
+                // Remove listeners once playing
+                document.removeEventListener('click', handleInteraction);
+                document.removeEventListener('keydown', handleInteraction);
+                document.removeEventListener('touchstart', handleInteraction);
+            }).catch((e) => {
+                console.log("Play failed:", e);
             });
+        };
+
+        if (autoPlay) {
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    setIsPlaying(true);
+                }).catch(() => {
+                    // Autoplay was prevented.
+                    // Add listeners to play on first interaction
+                    document.addEventListener('click', handleInteraction);
+                    document.addEventListener('keydown', handleInteraction);
+                    document.addEventListener('touchstart', handleInteraction);
+                });
+            }
         }
 
         return () => {
-            audio.pause();
+            document.removeEventListener('click', handleInteraction);
+            document.removeEventListener('keydown', handleInteraction);
+            document.removeEventListener('touchstart', handleInteraction);
         };
-    }, [autoPlay, volume]);
+    }, [autoPlay]);
 
     const togglePlay = () => {
         const audio = audioRef.current;
@@ -65,59 +88,11 @@ const BackgroundAudio: React.FC<BackgroundAudioProps> = ({
     const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newVolume = parseFloat(e.target.value);
         setVolume(newVolume);
-        if (audioRef.current) {
-            audioRef.current.volume = newVolume;
-        }
-    };
-
-    const handlePageClick = () => {
-        if (showPlayPrompt && audioRef.current) {
-            audioRef.current.play().then(() => {
-                setIsPlaying(true);
-                setShowPlayPrompt(false);
-            }).catch((error) => {
-                console.error('Failed to play audio:', error);
-            });
-        }
     };
 
     return (
         <>
             <audio ref={audioRef} src={src} />
-
-            {/* Click to Play Overlay - Appears when autoplay is blocked */}
-            {showPlayPrompt && (
-                <div
-                    onClick={handlePageClick}
-                    className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm flex items-center justify-center cursor-pointer animate-fade-in"
-                >
-                    <div className="text-center px-8 py-12 bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border-2 border-pink-200 max-w-md mx-4 animate-bounce-gentle">
-                        <div className="mb-6 flex justify-center">
-                            <div className="relative">
-                                <div className="absolute inset-0 bg-gradient-to-br from-pink-400 to-purple-600 rounded-full blur-xl opacity-50 animate-pulse"></div>
-                                <div className="relative bg-gradient-to-br from-pink-500 to-purple-600 rounded-full p-6">
-                                    <svg width="60" height="60" viewBox="0 0 24 24" fill="white" className="animate-pulse">
-                                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h2 className="text-3xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-3">
-                            🎵 Music Awaits
-                        </h2>
-
-                        <p className="text-gray-600 text-lg mb-6">
-                            Click anywhere to start the music
-                        </p>
-
-                        <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
-                            <div className="w-2 h-2 bg-pink-500 rounded-full animate-ping"></div>
-                            <span>Tap to play</span>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* Floating Audio Control Panel */}
             <div
