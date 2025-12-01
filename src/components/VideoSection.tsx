@@ -66,45 +66,38 @@ const VideoSection = () => {
                 </div>
 
                 <div ref={videoContainerRef} className="relative w-full aspect-video bg-zinc-900 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-zinc-900/10 group">
-                    <video
-                        ref={videoRef}
-                        className="w-full h-full object-cover"
-                        controls
-                        onPlay={handlePlay}
-                        onPause={handlePause}
-                    >
-                        <source src="video1.mp4" type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
-
-                    {/* Poster Image - Hidden when video plays, clickable to start */}
-                    {showPoster && (
-                        <div
-                            className="absolute inset-0 z-10 cursor-pointer"
-                            onClick={() => {
-                                videoRef.current?.play();
-                            }}
-                        >
-                            <img
-                                src="https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=2000&auto=format&fit=crop"
-                                alt="Video poster"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                    )}
-
-                    {/* Play Button Overlay - Only show when paused, clickable */}
-                    {!isPlaying && (
-                        <div
-                            className="absolute inset-0 flex items-center justify-center z-20 group-hover:bg-black/10 transition-colors cursor-pointer"
-                            onClick={() => {
-                                videoRef.current?.play();
-                            }}
-                        >
-                            <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center pl-1 group-hover:scale-110 transition-transform duration-300">
-                                <Play className="w-8 h-8 text-white fill-current opacity-80" />
+                    {isPlaying ? (
+                        <iframe
+                            src="https://drive.google.com/file/d/17ypIuc8E7F3aWZJxR_LzhHSv3k9MLzSb/preview"
+                            className="w-full h-full"
+                            allow="autoplay"
+                            allowFullScreen
+                            title="Memory Video"
+                        ></iframe>
+                    ) : (
+                        <>
+                            {/* Poster Image */}
+                            <div
+                                className="absolute inset-0 z-10 cursor-pointer"
+                                onClick={handlePlay}
+                            >
+                                <img
+                                    src="https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=2000&auto=format&fit=crop"
+                                    alt="Video poster"
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
-                        </div>
+
+                            {/* Play Button Overlay */}
+                            <div
+                                className="absolute inset-0 flex items-center justify-center z-20 group-hover:bg-black/10 transition-colors cursor-pointer"
+                                onClick={handlePlay}
+                            >
+                                <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center pl-1 group-hover:scale-110 transition-transform duration-300">
+                                    <Play className="w-8 h-8 text-white fill-current opacity-80" />
+                                </div>
+                            </div>
+                        </>
                     )}
                 </div>
 
