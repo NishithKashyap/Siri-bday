@@ -9,11 +9,9 @@ gsap.registerPlugin(ScrollTrigger);
 const VideoSection = () => {
     const container = useRef<HTMLDivElement>(null);
     const videoContainerRef = useRef<HTMLDivElement>(null);
-    const videoRef = useRef<HTMLVideoElement>(null);
     const textRef = useRef<HTMLDivElement>(null);
     const collageRef = useRef<HTMLDivElement>(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [showPoster, setShowPoster] = useState(true);
 
     useGSAP(() => {
         const tl = gsap.timeline({
@@ -48,11 +46,6 @@ const VideoSection = () => {
 
     const handlePlay = () => {
         setIsPlaying(true);
-        setShowPoster(false);
-    };
-
-    const handlePause = () => {
-        setIsPlaying(false);
     };
 
     return (
