@@ -73,7 +73,7 @@ const VideoSection = () => {
                         onPlay={handlePlay}
                         onPause={handlePause}
                     >
-                        <source src="assets/videos/video.mp4" type="video/mp4" />
+                        <source src="video.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
 
