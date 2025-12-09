@@ -61,7 +61,7 @@ const VideoSection = () => {
                 <div ref={videoContainerRef} className="relative w-full aspect-video bg-zinc-900 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-zinc-900/10 group">
                     {isPlaying ? (
                         <iframe
-                            src="https://drive.google.com/file/d/17ypIuc8E7F3aWZJxR_LzhHSv3k9MLzSb/preview"
+                            src="https://drive.google.com/file/d/1iLIN-pYpSXmqYx4oQ0xPfORSwoEyJYKD/preview"
                             className="w-full h-full"
                             allow="autoplay"
                             allowFullScreen
